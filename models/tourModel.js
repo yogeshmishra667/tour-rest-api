@@ -104,6 +104,16 @@ tourSchema.post(/^find/, function(docs, next) {
   //it log total time of run query
   next();
 });
+
+// AGGREGATION MIDDLEWARE
+tourSchema.pre('aggregate', function(next) {
+  //this () target current aggregate () not docs
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  //unshift() save data in starting in array
+  console.log(this.pipeline());
+  next();
+});
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
