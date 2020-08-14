@@ -1,5 +1,14 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+
+//this error for if you something used not define
+//always use top of the all code
+process.on('uncaughtException', err => {
+  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+  console.log(err.name, err.message);
+  process.exit(1); //only process because isn't async()
+});
+
 const app = require('./app');
 
 dotenv.config({ path: './config.env' });
