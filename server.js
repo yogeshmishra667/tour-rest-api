@@ -12,10 +12,21 @@ mongoose
     useCreateIndex: true,
     useFindAndModify: false
   })
-  .then(() => console.log('DB is connected 🚀'))
-  .catch(err => console.error(err));
+  .then(() => console.log('DB is connected 🚀'));
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
+
+process.on('unhandledRejection', err => {
+  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+  console.log(err.name, err.message);
+
+  //if i'm use directly process.exit it stop server immediately means it not good but we stop server gracefully so first close all request then close server
+  server.close(() => {
+    process.exit(1); //it shutdown process 0:success 1:uncalled exception
+  });
+});
+
+//each time some where in application unhandled Rejection also promise rejection occur then the process object emit new () is unhandledRejection ;
