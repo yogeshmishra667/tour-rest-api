@@ -12,7 +12,7 @@ mongoose
     useCreateIndex: true,
     useFindAndModify: false
   })
-  .then(() => console.log('DB is connected 🔥'))
+  .then(() => console.log('DB is connected 🚀'))
   .catch(err => console.error(err));
 
 const port = process.env.PORT || 5000;

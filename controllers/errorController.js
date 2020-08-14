@@ -1,7 +1,20 @@
 const AppError = require('./../utils/appError');
 
+//if anyone enter invalid value or id
 const handleCastErrorDB = err => {
   const message = `Invalid ${err.path}: ${err.value}.`;
+  return new AppError(message, 400);
+};
+
+//if anyone enter duplicate value
+const handleDuplicateFieldsDB = err => {
+  //old way
+  //const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+  //console.log(err.keyValue.name);
+
+  const message = `Duplicate field value: ${
+    err.keyValue.name
+  }. Please use another value!`;
   return new AppError(message, 400);
 };
 
@@ -47,6 +60,8 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
     //when anyone set wrong value
     if (err.name === 'CastError') error = handleCastErrorDB(error);
+    //if anyone enter duplicate value
+    if (error.code === 11000) error = handleDuplicateFieldsDB(error);
 
     sendErrorProd(error, res);
   }
