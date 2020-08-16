@@ -18,6 +18,7 @@
     "mongodb": "^3.6.0",
     "mongoose": "^5.9.28",
     "morgan": "^1.9.1",
+    "nodemailer": "^6.4.11",
     "slugify": "^1.4.5",
     "validator": "^13.1.1"
   },
