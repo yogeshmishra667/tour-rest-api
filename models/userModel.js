@@ -31,7 +31,8 @@ const userSchema = new mongoose.Schema({
       },
       message: 'Passwords are not the same!'
     }
-  }
+  },
+  passwordChangedAt: Date
 });
 
 //for hashing password
@@ -56,5 +57,19 @@ userSchema.methods.correctPassword = async function(
   //we also compare manually but candidatePassword is not hashed password it's simple password send by user
 };
 
+//if anyone change password after token is issue
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000, //it convert in timestamp
+      10 //10 is base number
+    );
+    console.log(JWTTimestamp, changedTimestamp);
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  // False means NOT changed
+  return false;
+};
 const User = mongoose.model('User', userSchema);
 module.exports = User;
