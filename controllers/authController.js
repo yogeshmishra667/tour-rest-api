@@ -6,28 +6,32 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const sendEmail = require('./../utils/email');
 
-//for jwt sign token
+//FOR JWT SIGN TOKEN(REUSE CODE)
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN
   });
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create(req.body);
+//FOR SEND TOKEN FOR ALL ENDPOINT (REUSE CODE)
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
 
-  const token = signToken(newUser._id);
-
-  res.status(201).json({
+  res.status(statusCode).json({
     status: 'success',
     token,
     data: {
-      user: newUser
+      user
     }
   });
+};
+
+exports.signup = catchAsync(async (req, res, next) => {
+  const newUser = await User.create(req.body);
+  createSendToken(newUser, 201, res);
 });
 
-//for login user
+//FOR LOGIN USER
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -46,15 +50,10 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) If everything ok, send token to client
-  const token = signToken(user._id);
-
-  res.status(201).json({
-    status: 'success',
-    token
-  });
+  createSendToken(user, 201, res);
 });
 
-//for protected route
+//FOR PROTECT ROUTE
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check of it's there
   let token;
@@ -187,10 +186,26 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // 3) Update changedPasswordAt property for the user [at userModel]
   // 4) Log the user in, send JWT
-  const token = signToken(user._id);
+  createSendToken(user, 201, res);
+});
 
-  res.status(201).json({
-    status: 'success',
-    token
-  });
+//for change password for login user
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  //1) Get user from collection
+  const { currentPassword, password, passwordConfirm } = req.body;
+  const user = await User.findById(req.user.id).select('+password');
+  //user id come from protect endpoint bY GRANT ACCESS
+
+  //2) check if POSTed current password is correct
+  if (!user || !(await user.correctPassword(currentPassword, user.password))) {
+    return next(new AppError('Incorrect email or password', 401));
+  }
+
+  //if show update password
+  user.password = password;
+  user.passwordConfirm = passwordConfirm;
+  await user.save(); // User.findByIdAndUpdate will NOT work as intended!
+
+  //3) If everything ok, send token to client
+  createSendToken(user, 201, res);
 });
