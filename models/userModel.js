@@ -40,7 +40,11 @@ const userSchema = new mongoose.Schema({
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
-  passwordResetExpires: Date
+  passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    select: false
+  }
 });
 
 //for hashing password----------------------------------------------------//
@@ -63,6 +67,13 @@ userSchema.pre('save', function(next) {
   this.passwordChangedAt = Date.now() - 1000;
   /* -1000(1s):sometime token created before. after set timestamp so set [-1s] past so token is always created after the passwordChangedAt */
 
+  next();
+});
+
+//for deactivate own account by user--------------------------------------//
+userSchema.pre(/^find/, function(next) {
+  // this points to the current query
+  this.find({ active: { $ne: false } });
   next();
 });
 
