@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date
 });
 
-//for hashing password
+//for hashing password----------------------------------------------------//
 userSchema.pre('save', async function(next) {
   // Only run this function if password was actually modified
   if (!this.isModified('password')) return next();
@@ -56,7 +56,17 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-//for compare bcrypt (hashed) password
+//for add in model (passwordChangedAt) when password change---------------//
+userSchema.pre('save', function(next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  /* -1000(1s):sometime token created before. after set timestamp so set [-1s] past so token is always created after the passwordChangedAt */
+
+  next();
+});
+
+//for compare bcrypt (hashed) password------------------------------------//
 userSchema.methods.correctPassword = async function(
   candidatePassword,
   userPassword
@@ -65,7 +75,7 @@ userSchema.methods.correctPassword = async function(
   //we also compare manually but candidatePassword is not hashed password it's simple password send by user
 };
 
-//if anyone change password after token is issue
+//if anyone change password after token is issue -------------------------//
 userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
@@ -80,7 +90,7 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   return false;
 };
 
-//for reset password
+//for reset password------------------------------------------------------//
 userSchema.methods.createPasswordResetToken = function() {
   // crypto use for encrypted data
   const resetToken = crypto.randomBytes(32).toString('hex');
@@ -91,15 +101,9 @@ userSchema.methods.createPasswordResetToken = function() {
     .digest('hex');
   //you can't store plain text token in database because someone stole
   //passwordResetToken is encrypted token for store in database
-  console.log(
-    {
-      resetToken
-    },
-    this.passwordResetToken
-  );
 
+  //console.log( { resetToken },this.passwordResetToken );
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000; //10min
-
   return resetToken;
 };
 
