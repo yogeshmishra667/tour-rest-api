@@ -67,19 +67,15 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not yet defined!'
-  });
-};
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: 'This route is not yet defined!'
+    message: 'This route is not defined! please try /signup route'
   });
 };
 
+//GET USER USING HANDLER FUNCTION
+exports.getUser = factory.getOne(User);
 //UPDATE USER USING HANDLER FUNCTION
 exports.updateUser = factory.updateOne(User);
 //DELETE USER USING HANDLER FUNCTION

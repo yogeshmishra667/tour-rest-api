@@ -31,6 +31,8 @@ exports.setTourUserIds = (req, res, next) => {
   next();
 };
 
+//FOR GET REVIEW USING FACTORY HANDLER
+exports.getReview = factory.getOne(Review);
 //FOR CREATE REVIEW USING FACTORY HANDLER
 exports.createReview = factory.createOne(Review);
 //FOR UPDATE REVIEW USING FACTORY HANDLER

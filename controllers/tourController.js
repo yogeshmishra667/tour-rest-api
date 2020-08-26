@@ -31,21 +31,8 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTour = catchAsync(async (req, res, next) => {
-  // const id = req.params.id * 1;
-  //const tour = tours.find(el => el.id === id);
-  const tour = await Tour.findById(req.params.id).populate('reviews');
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour
-    }
-  });
-});
-
+//FOR GET TOUR USING FACTORY HANDLER
+exports.getTour = factory.getOne(Tour, { path: 'reviews' });
 //FOR UPDATE TOUR USING FACTORY HANDLER
 exports.createTour = factory.createOne(Tour);
 //FOR UPDATE TOUR USING FACTORY HANDLER
