@@ -14,7 +14,16 @@ router.patch(
   authController.protect,
   authController.updatePassword
 );
+//FOR GET CURRENT USER WITH USER.ID
+router.get(
+  '/me',
+  authController.protect,
+  userController.getMe,
+  userController.getUser
+);
+//FOR UPDATE CURRENT USER
 router.patch('/updateMe', authController.protect, userController.updateMe);
+//FOR DELETE CURRENT USER
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
 
 router
