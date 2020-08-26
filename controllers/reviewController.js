@@ -4,7 +4,10 @@ const AppError = require('../utils/appError');
 
 //for fetch all review
 exports.getAllReview = catchAsync(async (req, res, next) => {
-  const reviews = await Review.find();
+  let filter = {};
+  if (req.params.tourId) filter = { tour: req.params.tourId };
+
+  const reviews = await Review.find(filter);
 
   if (!reviews) {
     return next(new AppError('No review found', 404));

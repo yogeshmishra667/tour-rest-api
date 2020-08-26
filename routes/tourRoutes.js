@@ -7,6 +7,8 @@ const router = express.Router();
 
 //for marge review router
 router.use('/:tourId/reviews', reviewRouter);
+// POST /tour/234fad4/reviews
+// GET /tour/234fad4/reviews
 
 // router.param('id', tourController.checkID);
 router
