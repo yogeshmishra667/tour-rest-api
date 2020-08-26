@@ -1,9 +1,8 @@
-//const mongoose = require('mongoose');
 const Tour = require('../models/tourModel');
-const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
 const factory = require('../controllers/handlerFactory');
+//const AppError = require('../utils/appError');
+// const APIFeatures = require('../utils/apiFeatures');
 
 exports.aliasTopTours = async (req, res, next) => {
   req.query.limit = '5';
@@ -12,25 +11,8 @@ exports.aliasTopTours = async (req, res, next) => {
   next();
 };
 
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  //EXECUTE QUERY
-  const features = new APIFeatures(Tour.find(), req.query)
-    //chaining is work because every class method (return this) otherwise not
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const tours = await features.query;
-
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: {
-      tours
-    }
-  });
-});
-
+//FOR GET ALL TOUR USING FACTORY HANDLER
+exports.getAllTours = factory.getAll(Tour);
 //FOR GET TOUR USING FACTORY HANDLER
 exports.getTour = factory.getOne(Tour, { path: 'reviews' });
 //FOR UPDATE TOUR USING FACTORY HANDLER
@@ -40,17 +22,7 @@ exports.updateTour = factory.updateOne(Tour);
 //FOR DELETE TOUR USING FACTORY HANDLER
 exports.deleteTour = factory.deleteOne(Tour);
 
-// exports.deleteTour = catchAsync(async (req, res, next) => {
-//   const tour = await Tour.findByIdAndRemove(req.params.id);
-//   if (!tour) {
-//     return next(new AppError('No tour found with that ID', 404));
-//   }
-//   res.status(204).json({
-//     status: 'success',
-//     data: null
-//   });
-// });
-
+//GET STATS
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {

@@ -14,19 +14,6 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-
-  // SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users
-    }
-  });
-});
-
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
@@ -74,6 +61,8 @@ exports.createUser = (req, res) => {
   });
 };
 
+//GET ALL USER USING HANDLER FUNCTION
+exports.getAllUsers = factory.getAll(User);
 //GET USER USING HANDLER FUNCTION
 exports.getUser = factory.getOne(User);
 //UPDATE USER USING HANDLER FUNCTION
