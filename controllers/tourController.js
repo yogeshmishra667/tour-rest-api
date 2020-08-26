@@ -46,39 +46,13 @@ exports.getTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createTour = catchAsync(async (req, res, next) => {
-  // const newTour = new Tour({});
-  // await newTour.save();
-  //instead of use create ()
-  const newTour = await Tour.create(req.body);
-  res.status(201).json({
-    status: 'success',
-    data: {
-      tour: newTour
-    }
-  });
-});
-
+//FOR UPDATE TOUR USING FACTORY HANDLER
+exports.createTour = factory.createOne(Tour);
 //FOR UPDATE TOUR USING FACTORY HANDLER
 exports.updateTour = factory.updateOne(Tour);
-// exports.updateTour = catchAsync(async (req, res, next) => {
-//   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-//     new: true,
-//     runValidators: true
-//   });
-//   if (!tour) {
-//     return next(new AppError('No tour found with that ID', 404));
-//   }
-//   res.status(200).json({
-//     status: 'success',
-//     data: {
-//       tour
-//     }
-//   });
-// });
-
 //FOR DELETE TOUR USING FACTORY HANDLER
 exports.deleteTour = factory.deleteOne(Tour);
+
 // exports.deleteTour = catchAsync(async (req, res, next) => {
 //   const tour = await Tour.findByIdAndRemove(req.params.id);
 //   if (!tour) {

@@ -24,20 +24,15 @@ exports.getAllReview = catchAsync(async (req, res, next) => {
 });
 
 //for creating new review
-exports.createReview = catchAsync(async (req, res, next) => {
+exports.setTourUserIds = (req, res, next) => {
   // Allow nested routes
   if (!req.body.tour) req.body.tour = req.params.tourId;
   if (!req.body.user) req.body.user = req.user.id;
-  const newReview = await Review.create(req.body);
+  next();
+};
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      reviews: newReview
-    }
-  });
-});
-
+//FOR CREATE REVIEW USING FACTORY HANDLER
+exports.createReview = factory.createOne(Review);
 //FOR UPDATE REVIEW USING FACTORY HANDLER
 exports.updateReview = factory.updateOne(Review);
 //FOR DELETE REVIEW USING FACTORY HANDLER
