@@ -111,6 +111,10 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+//CREATE INDEXING FOR TOUR MODEL FOR READ DATA
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: -1 });
+
 tourSchema.virtual('durationInWeek').get(function() {
   return this.duration / 7;
 });

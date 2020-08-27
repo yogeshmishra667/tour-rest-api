@@ -13,7 +13,6 @@ exports.aliasTopTours = async (req, res, next) => {
 
 //FOR GET ALL TOUR USING FACTORY HANDLER
 exports.getAllTours = factory.getAll(Tour);
-//FOR GET TOUR USING FACTORY HANDLER
 exports.getTour = factory.getOne(Tour, { path: 'reviews' });
 //FOR UPDATE TOUR USING FACTORY HANDLER
 exports.createTour = factory.createOne(Tour);
