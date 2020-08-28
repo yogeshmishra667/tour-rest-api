@@ -26,6 +26,9 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
+//USER AND TOUR MUST BE UNIQUE (one user only one review on one tour)
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
 //for populate data from user model to review
 reviewSchema.pre(/^find/, function(next) {
   // this.populate({
