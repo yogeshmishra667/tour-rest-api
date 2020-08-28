@@ -58,25 +58,44 @@ reviewSchema.statics.calcAverageRatings = async function(tourId) {
       }
     }
   ]);
-  // console.log(stats);
-
-  //if (stats.length > 0) {
-  await Tour.findByIdAndUpdate(tourId, {
-    ratingsQuantity: stats[0].nRating,
-    ratingsAverage: stats[0].avgRating
-  });
-  // } else {
-  //   await Tour.findByIdAndUpdate(tourId, {
-  //     ratingsQuantity: 0,
-  //     ratingsAverage: 4.5
-  //   });
-  // }
+  //console.log(stats);
+  //IF DATA IS MORE THEN 1 SO DISPLAY CALCULATED AVERAGE OTHERWISE DISPLAY DEFAULT AVERAGE
+  if (stats.length > 0) {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: stats[0].nRating,
+      ratingsAverage: stats[0].avgRating
+    });
+  } else {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5
+    });
+  }
 };
 
 reviewSchema.post('save', function() {
   // this points to current
-  //constructor point the current docs who is created
+  //constructor point the current MODEL who is created
   this.constructor.calcAverageRatings(this.tour);
+});
+
+//ALSO CALCULATE AVERAGE FOR WHEN DATA DELETE OR UPDATE
+// findByIdAndUpdate
+// findByIdAndDelete //BOTH QUERY USE BTS AT FIND_ONE_AND QUERY
+reviewSchema.pre(/^findOneAnd/, async function(next) {
+  this.r = await this.findOne();
+  //this.r for transfer query data pre to post middleware
+  //PRE RUN AFTER THE DATA SAVE & findOne RETRIEVE DATA BUT (PRE) IT CAN'T UPDATE & DELETE DATA BECAUSE ITS ONLY RUN AFTER DATA SAVE
+
+  //console.log(this.r);
+  next();
+});
+//1)POST ALSO USE BECAUSE SOME PROBLEM WITH (PRE) SO SOLVE THIS PROBLEM ALSO USE POST FOR UPDATE AND DELETE AVERAGE BEFORE SAVE DATA
+// 2)POST IS ONLY MIDDLEWARE FOR CALCULATE AVERAGE
+
+reviewSchema.post(/^findOneAnd/, async function() {
+  // await this.findOne(); does NOT work here, query has already executed
+  await this.r.constructor.calcAverageRatings(this.r.tour);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
