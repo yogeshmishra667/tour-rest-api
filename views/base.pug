@@ -6,14 +6,15 @@ html
       link(href="css/style.css", rel="stylesheet")
       link(rel="shortcut icon", href="img/favicon.png", type="image/png")
       link(href="https://fonts.googleapis.com/css?family=Lato:300,300i,700", rel="stylesheet")
-      title yogi-tours | Exciting tours for adventurous people
+      title yogi-tours | #{title}
 
     body
       include _header
       
-      //- OVERVIEW
-      section.overview
-        h1 the top tour
+      //- CONTENT
+      block content
+        h1 root
+      
       
       //- FOOTER
       include _footer
