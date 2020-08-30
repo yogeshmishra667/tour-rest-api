@@ -1,3 +1,5 @@
+const Tour = require('../models/tourModel');
+
 //FOR ROOT PAGE
 exports.getRoot = (req, res, next) => {
   res.render('base', {
@@ -6,9 +8,11 @@ exports.getRoot = (req, res, next) => {
   });
 };
 //FOR OVERVIEW PAGE
-exports.getOverview = (req, res, next) => {
+exports.getOverview = async (req, res, next) => {
+  const tours = await Tour.find();
   res.render('overview', {
-    title: 'All tours'
+    title: 'All tours',
+    tours
   });
 };
 //FOR TOUR PAGE
