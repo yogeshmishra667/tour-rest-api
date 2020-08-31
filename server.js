@@ -1,6 +1,8 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
+dotenv.config({ path: './config.env' });
+
 //this error for if you something used not define
 //always use top of the all code
 process.on('uncaughtException', err => {
@@ -10,8 +12,6 @@ process.on('uncaughtException', err => {
 });
 
 const app = require('./app');
-
-dotenv.config({ path: './config.env' });
 
 const uri = process.env.DATABASE_URL;
 mongoose

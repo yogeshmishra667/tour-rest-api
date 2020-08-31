@@ -1,12 +1,6 @@
 const Tour = require('../models/tourModel');
+const catchAsync = require('../utils/catchAsync');
 
-//FOR ROOT PAGE
-exports.getRoot = (req, res, next) => {
-  res.render('base', {
-    user: 'yogesh mishra',
-    tour: 'yogi-tours'
-  });
-};
 //FOR OVERVIEW PAGE
 exports.getOverview = async (req, res, next) => {
   const tours = await Tour.find();
@@ -16,8 +10,14 @@ exports.getOverview = async (req, res, next) => {
   });
 };
 //FOR TOUR PAGE
-exports.getTour = (req, res, next) => {
-  res.render('tour', {
-    title: 'the forest hiker'
+exports.getTour = catchAsync(async (req, res, next) => {
+  const tours = await Tour.findOne({ slug: req.params.slug }).populate({
+    path: 'reviews',
+    fields: 'review rating user'
   });
-};
+  //console.log(tours);
+  res.render('tour', {
+    title: 'tours',
+    tours
+  });
+});

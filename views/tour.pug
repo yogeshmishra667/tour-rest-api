@@ -1,3 +1,90 @@
 extends base
+include _reviewCard
+
 block content
-   h1 this is the tour page
+  section.section-header
+    .header__hero
+      .header__hero-overlay &nbsp;
+      img.header__hero-img(src=`/img/tours/${tours.imageCover}`, alt=`${tours.name}`)
+
+    .heading-box
+      h1.heading-primary
+        span #{tours.name}
+      .heading-box__group
+        .heading-box__detail
+          svg.heading-box__icon
+            use(xlink:href='/img/icons.svg#icon-clock')
+          span.heading-box__text #{tours.duration} days
+        .heading-box__detail
+          svg.heading-box__icon
+            use(xlink:href='/img/icons.svg#icon-map-pin')
+          span.heading-box__text #{tours.startLocation.description}
+
+  section.section-description
+    .overview-box
+      div
+        .overview-box__group
+          h2.heading-secondary.ma-bt-lg Quick facts
+          .overview-box__detail
+            svg.overview-box__icon
+              use(xlink:href='/img/icons.svg#icon-calendar')
+            span.overview-box__label Next date
+            span.overview-box__text #{tours.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})}
+          .overview-box__detail
+            svg.overview-box__icon
+              use(xlink:href='/img/icons.svg#icon-trending-up')
+            span.overview-box__label Difficulty
+            span.overview-box__text #{tours.difficulty}
+          .overview-box__detail
+            svg.overview-box__icon
+              use(xlink:href='/img/icons.svg#icon-user')
+            span.overview-box__label Participants
+            span.overview-box__text #{tours.maxGroupSize} people
+          .overview-box__detail
+            svg.overview-box__icon
+              use(xlink:href='/img/icons.svg#icon-star')
+            span.overview-box__label Rating
+            span.overview-box__text #{tours.ratingsAverage} / #{tours.ratingsQuantity}
+
+        .overview-box__group
+          h2.heading-secondary.ma-bt-lg Your tour guides
+          each guide in tours.guides
+            .overview-box__detail
+              img.overview-box__img(src=`/img/users/${guide.photo}`, alt=`${guide.name}`)
+              - if(guide.role === 'lead-guide')
+                span.overview-box__label lead-guide
+              - if(guide.role === 'guide')
+                span.overview-box__label tour-guide
+              span.overview-box__text #{guide.name}
+
+
+    .description-box
+      h2.heading-secondary.ma-bt-lg About the #{tours.name} tour
+      p.description__text #{tours.description}
+
+
+  section.section-pictures
+    each img, i in tours.images
+      .picture-box
+        img.picture-box__img(src=`/img/tours/${img}`, alt=`The Park Camper Tour ${i + 1}`, class=`picture-box__img--${i + 1}`)  
+        //- class define for img indexing because img increase like 1-2-4
+
+
+  section.section-map
+    #map
+
+  section.section-reviews
+    .reviews
+      each review in tours.reviews
+        +reviewCard(review)
+
+  section.section-cta
+    .cta
+      .cta__img.cta__img--logo
+        img(src='/img/logo-white.png', alt='Natours logo')
+      img.cta__img.cta__img--1(src=`/img/tours/${tours.images[1]}`, alt='Tour picture')
+      img.cta__img.cta__img--2(src=`/img/tours/${tours.images[2]}`, alt='Tour picture')
+      .cta__content
+        h2.heading-secondary What are you waiting for?
+        p.cta__text= `${tours.duration} days. 1 adventure. Infinite memories. Make it yours today!`
+        button.btn.btn--green.span-all-rows Book tour now!
