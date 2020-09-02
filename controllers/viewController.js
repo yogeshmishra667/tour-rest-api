@@ -18,7 +18,19 @@ exports.getTour = catchAsync(async (req, res, next) => {
   //console.log(tours);
   res.set('Content-Security-Policy', 'X-Content-Security-Policy');
   res.render('tour', {
-    title: 'tours',
+    title: `${res.name}`,
     tours
+  });
+});
+//FOR LOGIN PAGE
+exports.getLoginForm = catchAsync(async (req, res, next) => {
+  res.render('login', {
+    title: 'log in your account'
+  });
+});
+//FOR signup PAGE
+exports.getSignupFrom = catchAsync(async (req, res, next) => {
+  res.render('signup', {
+    title: 'sign up your account'
   });
 });
