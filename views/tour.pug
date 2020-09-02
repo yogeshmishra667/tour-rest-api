@@ -1,6 +1,10 @@
 extends base
 include _reviewCard
 
+block append head
+  script(src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js')
+  link(href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet')
+  
 block content
   section.section-header
     .header__hero
@@ -71,7 +75,7 @@ block content
 
 
   section.section-map
-    #map
+    #map(data-locations=`${JSON.stringify(tours.locations)}`)
 
   section.section-reviews
     .reviews

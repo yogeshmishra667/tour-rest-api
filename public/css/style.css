@@ -25,6 +25,7 @@ html {
   font-size: 62.5%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -605,8 +606,9 @@ body {
   grid-column-gap: 6rem;
   grid-auto-flow: column;
   overflow-x: scroll;
-  -ms-scroll-snap-type: x mandatory;
+  /* -ms-scroll-snap-type: x mandatory; */
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }
 .reviews__card {
   width: 30rem;
@@ -1321,4 +1323,27 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+/* experimental scroll bar */
+/* width */
+::-webkit-scrollbar {
+  width: 15px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px #55c57a;
+  border-radius: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
 }

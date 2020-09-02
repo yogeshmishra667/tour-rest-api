@@ -1,25 +1,29 @@
 doctype html
 html
-    head
+  head
+    block head
       meta(charset="UTF-8")
       meta(name="viewport" content="width=device-width, initial-scale=1.0")
+      //- meta(http-equiv="Content-Security-Policy" content="'script-src-elem' 'http://*' ")
       link(href="/css/style.css", rel="stylesheet")
       link(rel="shortcut icon", href="/img/favicon.png", type="image/png")
       link(href="https://fonts.googleapis.com/css?family=Lato:300,300i,700", rel="stylesheet")
       title yogi-tours | #{title}
 
-    body
-      include _header
-      
-      //- CONTENT
-      block content
-        h1 root
-      
-      
-      //- FOOTER
-      include _footer
-      
-   
-      
-    
+  body
+    include _header
+
+    //- CONTENT
+    block content
+      h1 root
+
+
+    //- FOOTER
+    include _footer
+
+
+  script(src="/js/mapbox.js")
+
+
+
 

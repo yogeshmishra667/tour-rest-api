@@ -16,6 +16,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     fields: 'review rating user'
   });
   //console.log(tours);
+  res.set('Content-Security-Policy', 'X-Content-Security-Policy');
   res.render('tour', {
     title: 'tours',
     tours
