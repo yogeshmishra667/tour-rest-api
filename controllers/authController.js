@@ -21,7 +21,9 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 //90 DAY
     ),
-    httpOnly: true
+    // secure: true
+    httpOnly: true,
+    sameSite: 'Strict'
   };
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions);
@@ -75,6 +77,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
     // console.log(token);
+  } else if (req.cookies.jwt) {
+    //FOR CLIENT SIDE AUTH VIA A COOKIE
+    token = req.cookies.jwt;
   }
   if (!token) {
     return next(
