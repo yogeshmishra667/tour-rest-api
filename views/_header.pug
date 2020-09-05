@@ -4,9 +4,11 @@ header.header
   .header__logo
     img(src="/img/in.png" alt="tour logo")
   nav.nav.nav--user
-    //- a.nav__el(href="#") My bookings
-    a.nav__el(href="#")
-      img(src="/img/users/default.jpg" alt="User photo" class="nav__user-img")
-      span yogesh mishra  
-    a.nav__el(href='/login') Log in
-    a.nav__el.nav__el--cta(href='/signup') Sign up
+    if user
+      a.nav__el.nav__el--logout  Log out
+      a.nav__el(href="#")
+        img(src=`/img/users/${user.photo}` alt="User photo" class="nav__user-img")
+        span= user.name.split(' ')[0]
+    else
+      a.nav__el(href='/login') Log in
+      a.nav__el.nav__el--cta(href='/signup') Sign up

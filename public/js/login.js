@@ -11,16 +11,17 @@ const login = async (email, password) => {
         password
       }
     });
-    console.log(res);
-    // if (res.data.status === 'success') {
-    //   showAlert('success', 'Logged in successfully!');
-    //   window.setTimeout(() => {
-    //     location.assign('/');
-    //   }, 1500);
-    // }
+    //console.log(res);
+    //IF USER LOGIN ALERT SUCCESS MESSAGE AND REDIRECT HOME(/) PAGE
+    if (res.data.status === 'success') {
+      alert('Logged in successfully!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
   } catch (err) {
-    // showAlert('error', err.response.data.message);
-    console.log(err.response);
+    alert(err.response.data.message);
+    //console.log(err.response);
   }
 };
 
