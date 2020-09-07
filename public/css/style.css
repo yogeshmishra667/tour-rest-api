@@ -93,6 +93,7 @@ body {
   left: 50%;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
+  width: 100%;
   z-index: 9999;
   color: #fff;
   font-size: 1.8rem;
@@ -103,6 +104,7 @@ body {
   padding: 1.6rem 15rem;
   -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+  transition: all 3s ease-in;
 }
 .alert--success {
   background-color: #20bf6b;

@@ -18,13 +18,33 @@ export const login = async (email, password) => {
     console.log(res);
     //IF USER LOGIN ALERT SUCCESS MESSAGE AND REDIRECT HOME(/) PAGE
     if (res.data.status === 'success') {
-      showAlert('success', 'Logged in successfully!');
+      const userName = res.data.data.user.name; //complete user name
+      //if user enter full name then show first name otherwise first name
+      const showName = userName.split(' ')[0] || userName;
+      showAlert('success', `Logged in successfully welcome ${showName}!`);
       window.setTimeout(() => {
         location.assign('/');
       }, 1500);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
-    console.log(err.response);
+    //console.log(err.response);
+  }
+};
+export const logout = async () => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: 'http://127.0.0.1:3000/api/v1/users/logout'
+    });
+
+    //IF USER logout ALERT SUCCESS MESSAGE
+    if (res.data.status === 'success') {
+      showAlert('error', `Logged out successfully. Bye-Bye see you again`);
+      location.reload(true);
+    }
+  } catch (err) {
+    showAlert('error', 'something went wrong');
+    //console.log(err.response);
   }
 };
