@@ -4,15 +4,15 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-//IT'S AVAILABLE IN ALL VIEW PAGES
-router.use(authController.isLoggedIn);
 //FOR OVERVIEW/HOME PAGE
-router.get('/', viewController.getOverview);
+router.get('/', authController.isLoggedIn, viewController.getOverview);
 //FOR TOUR PAGE
-router.get('/tour/:slug', viewController.getTour);
+router.get('/tour/:slug', authController.isLoggedIn, viewController.getTour);
 //FOR LOGIN USER
-router.get('/login', viewController.getLoginForm);
+router.get('/login', authController.isLoggedIn, viewController.getLoginForm);
 //FOR FOR REGISTER USER
-router.get('/signup', viewController.getSignupFrom);
+router.get('/signup', authController.isLoggedIn, viewController.getSignupFrom);
+//FOR ACCOUNT SETTINGS
+router.get('/me', authController.protect, viewController.getAccount);
 
 module.exports = router;
