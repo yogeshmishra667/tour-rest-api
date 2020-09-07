@@ -15,7 +15,7 @@ export const login = async (email, password) => {
         password
       }
     });
-    console.log(res);
+    //console.log(res);
     //IF USER LOGIN ALERT SUCCESS MESSAGE AND REDIRECT HOME(/) PAGE
     if (res.data.status === 'success') {
       const userName = res.data.data.user.name; //complete user name

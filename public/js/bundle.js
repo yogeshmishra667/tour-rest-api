@@ -8500,8 +8500,9 @@ var login = /*#__PURE__*/function () {
 
           case 3:
             res = _context.sent;
-            console.log(res); //IF USER LOGIN ALERT SUCCESS MESSAGE AND REDIRECT HOME(/) PAGE
 
+            //console.log(res);
+            //IF USER LOGIN ALERT SUCCESS MESSAGE AND REDIRECT HOME(/) PAGE
             if (res.data.status === 'success') {
               userName = res.data.data.user.name; //complete user name
               //if user enter full name then show first name otherwise first name
@@ -8513,20 +8514,20 @@ var login = /*#__PURE__*/function () {
               }, 1500);
             }
 
-            _context.next = 11;
+            _context.next = 10;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             (0, _alert.showAlert)('error', _context.t0.response.data.message); //console.log(err.response);
 
-          case 11:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function login(_x, _x2) {

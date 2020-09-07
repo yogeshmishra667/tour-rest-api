@@ -120,29 +120,31 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 //FOR CHECK USER LOGGED IN OR NOT
 // Only for rendered pages, no errors!
+
 exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
-      //2)verification token
+      // 1) verify token
       const decoded = await promisify(jwt.verify)(
         req.cookies.jwt,
         process.env.JWT_SECRET
       );
-      // 3) Check if user still exists
+
+      // 2) Check if user still exists
       const currentUser = await User.findById(decoded.id);
-      //if current user exist that mean no one try to changed token
       if (!currentUser) {
         return next();
       }
 
-      // 4) Check if user changed password after the token was issued
+      // 3) Check if user changed password after the token was issued
       if (currentUser.changedPasswordAfter(decoded.iat)) {
         return next();
       }
 
-      //THERE IS THE LOGGED IN USER
+      // THERE IS A LOGGED IN USER
       res.locals.user = currentUser;
-    } catch (error) {
+      return next();
+    } catch (err) {
       return next();
     }
   }
@@ -150,13 +152,12 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 //FOR LOGOUT
-exports.logout = (req, res, next) => {
-  res.cookie('jwt', 'loggedOut', {
-    httpOnly: true,
-    expires: new Date(Date.now() + 10 * 1000)
+exports.logout = (req, res) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
   });
   res.status(200).json({ status: 'success' });
-  next();
 };
 
 //for user permission & authorization
