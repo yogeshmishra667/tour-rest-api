@@ -18,9 +18,13 @@ router.patch('/updateMyPassword', authController.updatePassword);
 //FOR GET CURRENT USER WITH USER.ID
 router.get('/me', userController.getMe, userController.getUser);
 //FOR UPDATE CURRENT USER
-router.patch('/updateMe', authController.protect, userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadUserPhoto,
+  userController.updateMe
+);
 //FOR DELETE CURRENT USER
-router.delete('/deleteMe', authController.protect, userController.deleteMe);
+router.delete('/deleteMe', userController.deleteMe);
 
 //FOR restrict ALL THE ROUTE BELOW THIS MIDDLEWARE FOR ONLY ADMIN
 router.use(authController.restrictTo('admin'));
