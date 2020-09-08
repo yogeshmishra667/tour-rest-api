@@ -39,7 +39,7 @@ exports.getSignupFrom = catchAsync(async (req, res, next) => {
   });
 });
 
-//FOR ACCOUT SETTINGS
+//FOR ACCOUNT SETTINGS
 exports.getAccount = (req, res) => {
   res.status(200).render('account', {
     title: 'your account'
@@ -47,17 +47,8 @@ exports.getAccount = (req, res) => {
 };
 
 //FOR USER UPDATE PAGE
-exports.userUpdate = catchAsync(async (req, res, next) => {
-  const updatedUser = await User.findByIdAndUpdate(
-    req.user.id,
-    {
-      name: req.body.name,
-      email: req.body.email
-    },
-    { new: true, runValidators: true }
-  );
+exports.userUpdate = async (req, res, next) => {
   res.render('account', {
-    title: 'update user',
-    user: updatedUser
+    title: 'update user'
   });
-});
+};
