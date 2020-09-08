@@ -14,5 +14,11 @@ router.get('/login', authController.isLoggedIn, viewController.getLoginForm);
 router.get('/signup', authController.isLoggedIn, viewController.getSignupFrom);
 //FOR ACCOUNT SETTINGS
 router.get('/me', authController.protect, viewController.getAccount);
+//FOR UPDATE USER ACCOUNT SETTINGS
+router.post(
+  '/submit-user-data',
+  authController.protect,
+  viewController.userUpdate
+);
 
 module.exports = router;
