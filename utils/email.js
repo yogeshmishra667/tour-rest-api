@@ -51,6 +51,13 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'welcome to tour application!');
+    await this.send('welcome', 'welcome to yogi-tour application!');
+  }
+
+  async sendPasswordReset() {
+    await this.send(
+      'passwordReset',
+      'your token -for password reset (valid 10 minutes)!'
+    );
   }
 };
