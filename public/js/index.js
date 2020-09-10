@@ -4,6 +4,7 @@ import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateSettings } from './updatesetting';
 import { handleFileSelect } from './thumbnail';
+import { showAlert } from './alert';
 
 //DOM
 const mapBox = document.getElementById('map');
@@ -72,5 +73,5 @@ if (passwordUpdateForm) {
 if (window.FileReader) {
   thumbnail.addEventListener('change', handleFileSelect, false);
 } else {
-  alert('This browser does not support FileReader');
+  showAlert('error', 'This browser does not support FileReader');
 }
