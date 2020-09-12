@@ -3,6 +3,7 @@ import '@babel/polyfill';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { updateSettings } from './updatesetting';
+import { bookTour } from './stripe';
 import { handleFileSelect } from './thumbnail';
 import { showAlert } from './alert';
 
@@ -13,6 +14,7 @@ const userUpdateBtn = document.querySelector('.form-user-data');
 const passwordUpdateForm = document.querySelector('.form-user-password');
 const userLogoutBtn = document.querySelector('.nav__el--logout');
 const thumbnail = document.getElementById('photo');
+const bookBtn = document.getElementById('book-tour');
 
 // DELEGATION
 if (mapBox) {
@@ -44,7 +46,7 @@ if (userUpdateBtn) {
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
     form.append('photo', document.getElementById('photo').files[0]);
-    console.log(form);
+    //console.log(form);
 
     updateSettings(form, 'data');
   });
@@ -69,9 +71,19 @@ if (passwordUpdateForm) {
   });
 }
 
+//FOR PAYMENT
+if (bookBtn) {
+  bookBtn.addEventListener('click', e => {
+    e.target.textContent = 'Processing...';
+    const { tourId } = e.target.dataset;
+    bookTour(tourId);
+  });
+}
 //FOR IMAGES THUMBNAIL
-if (window.FileReader) {
-  thumbnail.addEventListener('change', handleFileSelect, false);
-} else {
-  showAlert('error', 'This browser does not support FileReader');
+if (thumbnail) {
+  if (window.FileReader) {
+    thumbnail.addEventListener('change', handleFileSelect, false);
+  } else {
+    showAlert('error', 'This browser does not support FileReader');
+  }
 }

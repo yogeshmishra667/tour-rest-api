@@ -91,4 +91,9 @@ block content
       .cta__content
         h2.heading-secondary What are you waiting for?
         p.cta__text= `${tours.duration} days. 1 adventure. Infinite memories. Make it yours today!`
-        button.btn.btn--green.span-all-rows Book tour now!
+
+        if user
+          //- WHENEVER YOU YOU CAN USED DATE SO TOUR-ID CONVERT IN tourId
+          button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tours.id}`) Book tour now!
+        else
+          a.btn.btn--green.span-all-rows(href='/login') log in to book tour
