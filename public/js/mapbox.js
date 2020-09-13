@@ -7,7 +7,8 @@ export const displayMap = locations => {
     style: 'mapbox://styles/yogeshmishra667/ckeju6wlk3bls19ocl73z63tp',
     // center: [78.8718, 21.7679],
     // zoom: 3.7,
-    interactive: false
+    //interactive: false
+    scrollZoom: false
   });
 
   //FOR ADD MARKER AND POPUP
