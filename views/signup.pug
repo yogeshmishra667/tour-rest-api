@@ -3,7 +3,7 @@ block content
   main.main
     .login-form
       h2.heading-secondary.ma-bt-lg sign up into your account
-      form.form
+      form.form.form--signup
         .form__group
           label.form__label(for='name') name
           input#name.form__input(type='name', placeholder='yogesh', required minlength="5")
@@ -15,6 +15,6 @@ block content
           input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
         .form__group.ma-bt-md
           label.form__label(for='password') confirm Password
-          input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+          input#passwordConfirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
         .form__group
-          button.btn.btn--green Signup
+          button.btn.btn--green.btn-save--user Signup

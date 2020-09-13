@@ -6,6 +6,7 @@ import { updateSettings } from './updatesetting';
 import { bookTour } from './stripe';
 import { handleFileSelect } from './thumbnail';
 import { showAlert } from './alert';
+import { signup } from './signup';
 
 //DOM
 const mapBox = document.getElementById('map');
@@ -15,12 +16,27 @@ const passwordUpdateForm = document.querySelector('.form-user-password');
 const userLogoutBtn = document.querySelector('.nav__el--logout');
 const thumbnail = document.getElementById('photo');
 const bookBtn = document.getElementById('book-tour');
+const signupFormData = document.querySelector('.form--signup');
 
 // DELEGATION
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
   displayMap(locations);
   // what will put data in data-locations (locations) is field and you can access locations data using dataset
+}
+
+//ACCESS DATA FOR SIGNUP
+if (signupFormData) {
+  signupFormData.addEventListener('submit', e => {
+    e.preventDefault();
+    document.querySelector('.btn-save--user').textContent = 'Creating...';
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    signup(name, email, password, passwordConfirm);
+    document.querySelector('.btn-save--user').textContent = 'Sign up';
+  });
 }
 
 //ACCESS VIEW BY DOM
