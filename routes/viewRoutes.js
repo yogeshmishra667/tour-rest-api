@@ -22,5 +22,7 @@ router.get('/signup', authController.isLoggedIn, viewController.getSignupFrom);
 router.get('/me', authController.protect, viewController.getAccount);
 //FOR UPDATE USER ACCOUNT SETTINGS
 router.patch('/updateMe', authController.protect, viewController.userUpdate);
+//FOR MY-BOOKING SETTINGS
+router.get('/my-tours', authController.protect, viewController.getMyTours);
 
 module.exports = router;
