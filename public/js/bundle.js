@@ -8482,7 +8482,7 @@ _axios.default.defaults.withCredentials = true;
 
 var login = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(email, password) {
-    var res, userName, showName;
+    var res, userName;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -8505,10 +8505,8 @@ var login = /*#__PURE__*/function () {
             //IF USER LOGIN ALERT SUCCESS MESSAGE AND REDIRECT HOME(/) PAGE
             if (res.data.status === 'success') {
               userName = res.data.data.user.name; //complete user name
-              //if user enter full name then show first name otherwise first name
 
-              showName = userName.split(' ')[0] || userName;
-              (0, _alert.showAlert)('success', "Logged in successfully welcome ".concat(showName, "!"));
+              (0, _alert.showAlert)('success', "Logged in successfully welcome ".concat(userName, "!"));
               window.setTimeout(function () {
                 location.assign('/');
               }, 1500);

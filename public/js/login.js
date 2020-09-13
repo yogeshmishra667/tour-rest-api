@@ -18,10 +18,9 @@ export const login = async (email, password) => {
     //console.log(res);
     //IF USER LOGIN ALERT SUCCESS MESSAGE AND REDIRECT HOME(/) PAGE
     if (res.data.status === 'success') {
-      const userName = res.data.data.user.name; //complete user name
-      //if user enter full name then show first name otherwise first name
-      const showName = userName.split(' ')[0] || userName;
-      showAlert('success', `Logged in successfully welcome ${showName}!`);
+      const userName = res.data.data.user.name;
+
+      showAlert('success', `Logged in successfully welcome ${userName}!`);
       window.setTimeout(() => {
         location.assign('/');
       }, 1500);
