@@ -4,10 +4,10 @@ export const displayMap = locations => {
     'pk.eyJ1IjoieW9nZXNobWlzaHJhNjY3IiwiYSI6ImNrZWppMnRhbjB1ZTAzMHBjempnbjE3dmcifQ.aAvAKk9uR3UBEAs8v9ulxA';
   var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/yogeshmishra667/ckeju6wlk3bls19ocl73z63tp'
+    style: 'mapbox://styles/yogeshmishra667/ckeju6wlk3bls19ocl73z63tp',
     // center: [78.8718, 21.7679],
     // zoom: 3.7,
-    // interactive: false
+    interactive: false
   });
 
   //FOR ADD MARKER AND POPUP

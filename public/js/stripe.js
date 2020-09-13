@@ -8,7 +8,7 @@ export const bookTour = async tourId => {
     // 1) Get checkout session from API
     const session = await axios(
       //TOUR ID COMES FROM TOUR.PUG & INDEX.JS VIA DATASET
-      `http://127.0.0.1:3000/api/v1/booking/checkout-session/${tourId}`
+      `/api/v1/booking/checkout-session/${tourId}`
     );
     //console.log(session);
 
@@ -17,7 +17,7 @@ export const bookTour = async tourId => {
       sessionId: session.data.session.id
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     showAlert('error', err);
   }
 };
