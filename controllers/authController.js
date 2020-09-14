@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const User = require('../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
-//const Email = require('./../utils/email');
+const Email = require('./../utils/email');
 
 //FOR JWT SIGN TOKEN(REUSE CODE)
 const signToken = id => {
@@ -50,8 +50,8 @@ const createSendToken = (user, statusCode, req, res) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
-  //const url = `${req.protocol}://${req.get('host')}/me`;
-  //await new Email(newUser, url).sendWelcome();
+  const url = `${req.protocol}://${req.get('host')}/me`;
+  await new Email(newUser, url).sendWelcome();
   createSendToken(newUser, 201, req, res);
 });
 

@@ -14,10 +14,10 @@ module.exports = class Email {
     if (process.env.NODE_ENV === 'production') {
       // Sendgrid
       return nodemailer.createTransport({
-        service: 'SendGrid',
+        service: 'SendinBlue',
         auth: {
-          user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD
+          user: process.env.SENDINBLUE_USERNAME,
+          pass: process.env.SENDINBLUE_PASSWORD
         }
       });
     }
@@ -55,7 +55,10 @@ module.exports = class Email {
       text: htmlToText.fromString(html)
     };
     //3) CREATE A TRANSPORT AND SEND EMAIL
-    await this.newTransport().sendMail(mailOptions);
+    await this.newTransport()
+      .sendMail(mailOptions)
+      .then(res => console.log('Successfully sent'))
+      .catch(err => console.log('Failed ', err));
   }
 
   async sendWelcome() {
