@@ -18,6 +18,8 @@ const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
+//for heroku
+app.enable('trust proxy');
 
 //SETUP TEMPLATE ENGINE
 app.set('view engine', 'pug');

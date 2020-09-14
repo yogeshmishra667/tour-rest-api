@@ -39,3 +39,10 @@ process.on('unhandledRejection', err => {
 });
 
 //each time some where in application unhandled Rejection also promise rejection occur then the process object emit new () is unhandledRejection ;
+
+process.on('SIGTERM', () => {
+  console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
+  server.close(() => {
+    console.log('💥 Process terminated!');
+  });
+});

@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const User = require('../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
-const Email = require('./../utils/email');
+//const Email = require('./../utils/email');
 
 //FOR JWT SIGN TOKEN(REUSE CODE)
 const signToken = id => {
@@ -14,19 +14,27 @@ const signToken = id => {
 };
 
 //FOR SEND TOKEN FOR ALL ENDPOINT (REUSE CODE)
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
   //SEND TOKEN BY COOKIE
-  const cookieOptions = {
+  // const cookieOptions = {
+  //   expires: new Date(
+  //     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 //90 DAY
+  //   ),
+  //   // secure: true
+  //   httpOnly: true,
+  //   sameSite: 'Strict'
+  // };
+  // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+  // res.cookie('jwt', token, cookieOptions);
+  //secure way
+  res.cookie('jwt', token, {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000 //90 DAY
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    // secure: true
     httpOnly: true,
-    sameSite: 'Strict'
-  };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-  res.cookie('jwt', token, cookieOptions);
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+  });
 
   // Remove password from output
   user.password = undefined;
@@ -42,9 +50,9 @@ const createSendToken = (user, statusCode, res) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  await new Email(newUser, url).sendWelcome();
-  createSendToken(newUser, 201, res);
+  //const url = `${req.protocol}://${req.get('host')}/me`;
+  //await new Email(newUser, url).sendWelcome();
+  createSendToken(newUser, 201, req, res);
 });
 
 //FOR LOGIN USER
@@ -66,7 +74,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) If everything ok, send token to client
-  createSendToken(user, 201, res);
+  createSendToken(user, 201, req, res);
 });
 
 //FOR PROTECT ROUTE
@@ -194,7 +202,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     const resetURL = `${req.protocol}://${req.get(
       'host'
     )}/api/v1/users/resetPassword/${resetToken}`;
-    await new Email(user, resetURL).sendPasswordReset();
+    //await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
       status: 'success',
@@ -242,7 +250,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // 3) Update changedPasswordAt property for the user [at userModel]
   // 4) Log the user in, send JWT
-  createSendToken(user, 201, res);
+  createSendToken(user, 201, req, res);
 });
 
 //for change password for login user
@@ -263,5 +271,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save(); // User.findByIdAndUpdate will NOT work as intended!
 
   //3) If everything ok, send token to client
-  createSendToken(user, 201, res);
+  createSendToken(user, 201, req, res);
 });
