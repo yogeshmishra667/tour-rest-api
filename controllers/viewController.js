@@ -63,8 +63,21 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 });
 
 //FOR USER UPDATE PAGE
-exports.userUpdate = async (req, res, next) => {
-  res.render('account', {
-    title: 'update user'
+exports.updateUserData = catchAsync(async (req, res, next) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      email: req.body.email
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
+
+  res.status(200).render('account', {
+    title: 'Your account',
+    user: updatedUser
   });
-};
+});
