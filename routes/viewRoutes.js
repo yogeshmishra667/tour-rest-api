@@ -5,6 +5,9 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+//FOR ALERT
+router.use(viewsController.alerts);
+
 //FOR OVERVIEW/HOME PAGE
 router.get('/', authController.isLoggedIn, viewController.getOverview);
 //FOR TOUR PAGE
