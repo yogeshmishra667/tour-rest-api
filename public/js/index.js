@@ -27,7 +27,7 @@ if (mapBox) {
 
 //ACCESS DATA FOR SIGNUP
 if (signupFormData) {
-  signupFormData.addEventListener('submit', e => {
+  signupFormData.addEventListener('submit', (e) => {
     e.preventDefault();
     document.querySelector('.btn-save--user').textContent = 'Creating...';
     const name = document.getElementById('name').value;
@@ -41,7 +41,7 @@ if (signupFormData) {
 
 //ACCESS VIEW BY DOM
 if (formData) {
-  formData.addEventListener('submit', e => {
+  formData.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -56,7 +56,7 @@ if (userLogoutBtn) {
 
 //FOR USER DATA UPDATE
 if (userUpdateBtn) {
-  userUpdateBtn.addEventListener('submit', e => {
+  userUpdateBtn.addEventListener('submit', (e) => {
     e.preventDefault();
     const form = new FormData();
     form.append('name', document.getElementById('name').value);
@@ -69,7 +69,7 @@ if (userUpdateBtn) {
 }
 //FOR UPDATE USER CURRENT PASSWORD
 if (passwordUpdateForm) {
-  passwordUpdateForm.addEventListener('submit', async e => {
+  passwordUpdateForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     //FOR CHANGE BTN TEXT
     document.querySelector('.btn--save-password').textContent = 'Updating...';
@@ -89,12 +89,17 @@ if (passwordUpdateForm) {
 
 //FOR PAYMENT
 if (bookBtn) {
-  bookBtn.addEventListener('click', e => {
+  bookBtn.addEventListener('click', (e) => {
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
     bookTour(tourId);
   });
 }
+
+//FOR BOOKING ALERT
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) showAlert('success', alertMessage, 20);
+
 //FOR IMAGES THUMBNAIL
 if (thumbnail) {
   if (window.FileReader) {
